@@ -214,25 +214,31 @@ int main()
 	else if (CiteType == "tv")
 	{
 		string episode = prompt("What's the title of the episode? No quotes!");
-		string narrator = "";
-		string whatdo = "";
-		if (yaynay("Do you know who directed/performed/narrated/interviewed on that show?"))
+		string nonauthors = "";
+		string joblist = { // List of possible non-authory jobs the credits' might've had.
+			//Kind of a temporarily solution to this.
+			"directed",
+			"created",
+			"performed",
+			"narrated"
+		};
+		for(int i = 0; i < 5; ++i)
 		{
-			cout << "So, what did they do? [Narr./Dir./Perf./Interviewed, stuff like that].\n>";
-			while (whatdo == "")getline(cin, whatdo);
-			cout << "What's their name? (First Last)\n>";
-			while (narrator == "")getline(cin, narrator);
-			narrator = whatdo + " by " + narrator + ". ";
+			if (yaynay("Do you know who " + joblist[i] + " on that show?"))
+			{
+				nonauthors += joblist[i] + " by " + prompt("What's their name? (First Last)") + ", ";
+			}
 		}
+
 		string series = prompt("What's the name of the series? Remember to italicize this later.");
-		string network = prompt("What's the name of the network? The book abbreviates PBS but not NPR.");
+		string network = prompt("What's the name of the network? I.e. PBS, NPR, Fox ...");
 		string dadt = prompt("What's the broadcast date? Day Month Year in MLA format, ex: 15 Mar. 2017\nDo not abbreviate May, June, nor July.");
 		string callsign = prompt("What's the callsign of the station that broadcasted this,\n if you know what that is and can find it?\nType X if you can't find that info.");
 		if (callsign == "X" || callsign == "x")callsign = "n.p."; // I can put n.p. here since the filter will find any double periods or what have you
 		callsign = callsign + ", ";
 		string ville = city();
 		while (ville == "");
-		result = "\"" + episode + ".\" " + narrator + series + ". " + network + ". " + callsign + ville + ". " + dadt;
+		result = "\"" + episode + ".\" " + series + ". " + network + ". " + nonauthor + callsign + ville + ". " + dadt;
 		if (yaynay("Is it TV or Radio?", "tv"))
 		{
 			result += ". Television.";
